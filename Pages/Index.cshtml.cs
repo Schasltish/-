@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TestingProject.Data;
-using TestingProject.Models;
+using TestingProlect.Data;
+using TestingProlect.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace TestingProject.Pages
+namespace TestingProlect.Pages
 {
     // [IgnoreAntiforgeryToken] нужен, чтобы JavaScript мог отправлять данные в базу без ошибок безопасности
     [IgnoreAntiforgeryToken]
