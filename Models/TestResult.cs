@@ -1,6 +1,6 @@
 using System;
 
-namespace TestingProject.Models
+namespace TestingProlect.Models
 {
     public class TestResult
     {
