@@ -1,15 +1,29 @@
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using TestingProject.Data; 
 using TestingProject.Models;
+using System.Threading.Tasks;
 
-namespace TestingProject.Data
+namespace TestingProject.Pages
 {
-    public class ApplicationDbContext : DbContext
+    public class CreateTestModel : PageModel
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options) { }
+        private readonly ApplicationDbContext _context;
 
-        public DbSet<TestResult> TestResults { get; set; }
-        public DbSet<Test> Tests { get; set; }
-        public DbSet<Question> Questions { get; set; }
+        public CreateTestModel(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public void OnGet() { }
+
+        public async Task<IActionResult> OnPostAsync(string TestName, string Description)
+        {
+            var newTest = new Test { Title = TestName, Description = Description };
+            _context.Tests.Add(newTest);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./Index");
+        }
     }
 }
