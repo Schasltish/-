@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using TestingProject.Models; // Проверь, чтобы тут было Project через j
+using TestingProject.Models;
 
 namespace TestingProject.Data
 {
