@@ -1,18 +1,22 @@
 @page
-@model TestingProject.Pages.CreateTestModel
+@model TestingProlect.Pages.CreateTestModel
 
-<form method="post">
-    <div class="mb-3">
-        <label asp-for="TestName"></label>
-        <input asp-for="TestName" class="form-control" />
-    </div>
+<div class="container" style="max-width: 500px; margin-top: 50px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+    <h2>Создание нового теста</h2>
+    <form method="post">
+        <div style="margin-bottom: 15px;">
+            <label>Название теста:</label>
+            <input asp-for="TestName" class="form-control" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;" />
+        </div>
 
-    <div class="mb-3">
-        <label asp-for="Description"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-    </div>
+        <div style="margin-bottom: 15px;">
+            <label>Описание:</label>
+            <textarea asp-for="Description" class="form-control" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+        </div>
 
-    <button type="submit" class="btn btn-primary">
-        Сохранить тест
-    </button>
-</form>
+        <button type="submit" class="btn btn-primary" style="background: #2563eb; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; width: 100%;">
+            Сохранить тест
+        </button>
+    </form>
+    <a href="/Index" style="display: block; text-align: center; margin-top: 15px; color: #64748b;">Назад</a>
+</div>
