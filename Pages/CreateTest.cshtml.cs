@@ -23,7 +23,6 @@ namespace TestingProject.Pages
             _context.Tests.Add(newTest);
             await _context.SaveChangesAsync();
 
-            // После создания теста перенаправляем на главную (пока нет страницы вопросов)
             return RedirectToPage("./Index");
         }
     }
