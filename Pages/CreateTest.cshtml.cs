@@ -1,27 +1,30 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using YourProjectName.Data; // Замени на свое пространство имен
-using YourProjectName.Models;
+using TestingProject.Data; 
+using TestingProject.Models;
+using System.Threading.Tasks;
 
-public class CreateTestModel : PageModel
+namespace TestingProject.Pages
 {
-    private readonly ApplicationDbContext _context;
-
-    public CreateTestModel(ApplicationDbContext context)
+    public class CreateTestModel : PageModel
     {
-        _context = context;
-    }
+        private readonly ApplicationDbContext _context;
 
-    public void OnGet() { }
+        public CreateTestModel(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
-    public async Task<IActionResult> OnPostAsync(string TestName, string Description)
-    {
-        var newTest = new Test { Title = TestName, Description = Description };
-        _context.Tests.Add(newTest);
-        await _context.SaveChangesAsync();
+        public void OnGet() { }
 
-        // После создания теста перекидываем на добавление вопросов к нему
-        return RedirectToPage("./AddQuestions", new { id = newTest.Id });
+        public async Task<IActionResult> OnPostAsync(string TestName, string Description)
+        {
+            var newTest = new Test { Title = TestName, Description = Description };
+            _context.Tests.Add(newTest);
+            await _context.SaveChangesAsync();
+
+            // После создания теста перенаправляем на главную (пока нет страницы вопросов)
+            return RedirectToPage("./Index");
+        }
     }
 }
-
