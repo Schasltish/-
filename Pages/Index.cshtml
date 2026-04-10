@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Информационная система тестирования</title>
+    <title>Система Тестирования — TestingProlect</title>
     <style>
         :root {
             --primary: #2563eb;
@@ -18,12 +18,13 @@
             --card-bg: #ffffff;
             --text-main: #0f172a;
             --text-muted: #64748b;
+            --border: #e2e8f0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body { 
-            font-family: 'Inter', sans-serif; 
+            font-family: 'Inter', -apple-system, sans-serif; 
             background-color: var(--bg);
             background-image: radial-gradient(at 0% 0%, hsla(220, 30%, 15%, 1) 0, transparent 50%), 
                               radial-gradient(at 50% 0%, hsla(220, 40%, 25%, 1) 0, transparent 50%);
@@ -32,6 +33,7 @@
             justify-content: center; 
             align-items: center; 
             padding: 20px; 
+            color: var(--text-main);
         }
 
         .container { 
@@ -41,116 +43,157 @@
             padding: 40px; 
             width: 100%; 
             max-width: 600px;
+            transition: all 0.3s ease;
         }
 
-        .header h1 { color: var(--text-main); font-size: 26px; text-align: center; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
+        .header h1 { font-size: 28px; text-align: center; margin-bottom: 24px; font-weight: 800; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
         .form-group input, .form-group select { 
-            width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 12px; 
+            width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; font-size: 16px; outline: none;
         }
+        .form-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
 
         .btn { 
             padding: 14px 24px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; 
             transition: all 0.2s; display: block; width: 100%; text-align: center; text-decoration: none;
-            margin-top: 10px;
+            font-size: 16px; margin-top: 10px;
         }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-secondary { background: #e2e8f0; color: #475569; }
-        .btn-danger { background: #ef4444; color: white; }
+        .btn-primary:hover { background: var(--primary-hover); }
+        .btn-secondary { background: #f1f5f9; color: #475569; }
+        .btn-danger { background: #fee2e2; color: #dc2626; }
 
-        .table-container { margin-top: 20px; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
+        .test-item {
+            background: #f8fafc; border: 1px solid var(--border); border-radius: 16px;
+            padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .test-info h4 { margin-bottom: 4px; }
+        .test-info p { font-size: 13px; color: var(--text-muted); }
+        .start-link { background: var(--primary); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; }
+
+        .table-container { margin-top: 20px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; font-size: 14px; }
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
-        th { background: #f8fafc; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: #f8fafc; font-weight: 600; }
 
         .hidden { display: none !important; }
+        hr { border: 0; border-top: 1px solid var(--border); margin: 24px 0; }
     </style>
 </head>
 <body>
 
     <div class="container" id="authPage">
-        <div class="header"><h1>Вход в систему</h1></div>
+        <div class="header"><h1>TestingProlect</h1></div>
         <div class="form-group">
-            <label>ФИО:</label>
-            <input type="text" id="fullName" placeholder="Введите имя">
+            <label>Ваше ФИО</label>
+            <input type="text" id="fullName" placeholder="Иван Иванов">
         </div>
         <div class="form-group">
-            <label>Группа:</label>
-            <input type="text" id="group" placeholder="Например, 10А">
+            <label>Группа / Класс</label>
+            <input type="text" id="group" placeholder="11-А">
         </div>
         <div class="form-group">
-            <label>Роль:</label>
+            <label>Кто вы?</label>
             <select id="role">
                 <option value="student">Студент</option>
                 <option value="teacher">Преподаватель</option>
             </select>
         </div>
-        <button class="btn btn-primary" onclick="login()">Войти</button>
+        <button class="btn btn-primary" onclick="login()">Войти в систему</button>
     </div>
 
     <div class="container hidden" id="studentPage">
         <div class="header"><h1>Личный кабинет</h1></div>
-        <p>Студент: <strong id="studentName"></strong></p>
-        <p>Группа: <strong id="studentGroup"></strong></p>
-        <hr style="margin: 20px 0;">
-        <h3>Доступные тесты:</h3>
-        <button class="btn btn-primary" onclick="alert('Логика запуска тестов из базы в процессе...')">Начать стандартный тест</button>
-        <button class="btn btn-secondary" onclick="logout()">Выйти</button>
+        <div style="background: #eff6ff; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+            <p>Студент: <strong id="studentName"></strong></p>
+            <p>Группа: <strong id="studentGroup"></strong></p>
+        </div>
+        
+        <h3>Доступные тесты</h3>
+        <div style="margin-top: 15px;">
+            @if(Model.AvailableTests.Any()) {
+                @foreach(var test in Model.AvailableTests) {
+                    <div class="test-item">
+                        <div class="test-info">
+                            <h4>@test.Title</h4>
+                            <p>@test.Description</p>
+                        </div>
+                        <a href="/TakeTest/@test.Id" class="start-link">Начать</a>
+                    </div>
+                }
+            } else {
+                <p style="text-align: center; color: var(--text-muted); padding: 20px;">Тестов пока нет...</p>
+            }
+        </div>
+        <button class="btn btn-secondary" onclick="logout()" style="margin-top: 20px;">Выйти</button>
     </div>
 
     <div class="container hidden" id="teacherPage" style="max-width: 800px;">
-        <div class="header"><h1>Панель преподавателя</h1></div>
+        <div class="header"><h1>Панель управления</h1></div>
         
-        <div style="display: flex; gap: 10px;">
-            <a href="/CreateTest" class="btn btn-primary">Создать новый тест</a>
-        </div>
+        <a href="/CreateTest" class="btn btn-primary">➕ Создать новый тест</a>
 
         <div class="table-container">
             <table>
                 <thead>
-                    <tr><th>Студент</th><th>Группа</th><th>Балл</th><th>Дата</th></tr>
+                    <tr><th>Студент</th><th>Группа</th><th>Результат</th><th>Дата</th></tr>
                 </thead>
                 <tbody>
-                    @if(Model.AllResults != null) {
-                        @foreach(var res in Model.AllResults) {
-                            <tr>
-                                <td>@res.StudentName</td>
-                                <td>@res.GroupName</td>
-                                <td>@res.Score / @res.TotalQuestions</td>
-                                <td>@res.TestDate.ToString("dd.MM.yyyy")</td>
-                            </tr>
-                        }
+                    @foreach(var res in Model.AllResults) {
+                        <tr>
+                            <td>@res.StudentName</td>
+                            <td>@res.GroupName</td>
+                            <td><strong>@res.Score</strong> / @res.TotalQuestions</td>
+                            <td>@res.TestDate.ToString("dd.MM HH:mm")</td>
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-danger" onclick="logout()">Выйти</button>
+        <button class="btn btn-danger" onclick="logout()" style="margin-top: 20px;">Выйти из системы</button>
     </div>
 
     <script>
-        let currentUser = { name: '', group: '', role: '' };
+        // При загрузке проверяем, был ли вход
+        window.onload = function() {
+            const savedRole = localStorage.getItem('userRole');
+            if (savedRole) {
+                showPage(savedRole);
+            }
+        };
 
         function login() {
             const name = document.getElementById('fullName').value;
             const group = document.getElementById('group').value;
             const role = document.getElementById('role').value;
 
-            if (!name || !group) return alert('Заполните поля!');
+            if (!name || !group) return alert('Пожалуйста, заполните все поля');
 
-            currentUser = { name, group, role };
+            // Сохраняем данные, чтобы они не пропадали при переходе на тест
+            localStorage.setItem('userName', name);
+            localStorage.setItem('userGroup', group);
+            localStorage.setItem('userRole', role);
+
+            showPage(role);
+        }
+
+        function showPage(role) {
             document.getElementById('authPage').classList.add('hidden');
-
             if (role === 'teacher') {
                 document.getElementById('teacherPage').classList.remove('hidden');
             } else {
                 document.getElementById('studentPage').classList.remove('hidden');
-                document.getElementById('studentName').textContent = name;
-                document.getElementById('studentGroup').textContent = group;
+                document.getElementById('studentName').textContent = localStorage.getItem('userName');
+                document.getElementById('studentGroup').textContent = localStorage.getItem('userGroup');
             }
         }
 
-        function logout() { location.reload(); }
+        function logout() {
+            localStorage.clear();
+            location.reload();
+        }
     </script>
 </body>
 </html>
