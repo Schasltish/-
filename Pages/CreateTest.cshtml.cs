@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TestingProject.Data;
-using TestingProject.Models;
+using TestingProlect.Data;
+using TestingProlect.Models;
 using System.Threading.Tasks;
 
-namespace TestingProject.Pages
+namespace TestingProlect.Pages
 {
     public class CreateTestModel : PageModel
     {
@@ -25,7 +25,10 @@ namespace TestingProject.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid) return Page();
+            if (string.IsNullOrEmpty(TestName))
+            {
+                return Page();
+            }
 
             var newTest = new Test 
             { 
@@ -36,7 +39,6 @@ namespace TestingProject.Pages
             _context.Tests.Add(newTest);
             await _context.SaveChangesAsync();
 
-            // Перенаправляем на главную
             return RedirectToPage("./Index");
         }
     }
