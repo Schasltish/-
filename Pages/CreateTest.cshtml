@@ -1,22 +1,82 @@
 @page
 @model TestingProlect.Pages.CreateTestModel
+@{ Layout = null; }
 
-<div class="container" style="max-width: 500px; margin-top: 50px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-    <h2>Создание нового теста</h2>
-    <form method="post">
-        <div style="margin-bottom: 15px;">
-            <label>Название теста:</label>
-            <input asp-for="TestName" class="form-control" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;" />
-        </div>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Конструктор теста — TestingProlect</title>
+    <style>
+        :root { --primary: #2563eb; --bg: #f8fafc; --border: #e2e8f0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); padding: 40px; display: flex; justify-content: center; }
+        .container { background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 800px; }
+        .q-card { border: 1px solid var(--border); padding: 20px; border-radius: 16px; margin-bottom: 20px; background: #fff; }
+        .form-group { margin-bottom: 15px; }
+        input, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; outline: none; box-sizing: border-box; }
+        .btn { padding: 12px 20px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .btn-add { background: #f1f5f9; color: var(--primary); width: 100%; margin-bottom: 20px; }
+        .btn-save { background: var(--primary); color: white; width: 100%; font-size: 18px; }
+        .option-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .is-correct { width: 20px !important; height: 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Создание теста</h1>
+        <form method="post" id="testForm">
+            <div class="form-group">
+                <label>Название теста</label>
+                <input asp-for="NewTest.Title" placeholder="Например: Основы электроники" required />
+            </div>
+            <div class="form-group">
+                <label>Описание</label>
+                <textarea asp-for="NewTest.Description" placeholder="О чем этот тест?"></textarea>
+            </div>
 
-        <div style="margin-bottom: 15px;">
-            <label>Описание:</label>
-            <textarea asp-for="Description" class="form-control" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
-        </div>
+            <hr style="margin: 30px 0; border: 0; border-top: 1px solid var(--border);">
+            <h3>Вопросы</h3>
+            <div id="questionsContainer"></div>
 
-        <button type="submit" class="btn btn-primary" style="background: #2563eb; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; width: 100%;">
-            Сохранить тест
-        </button>
-    </form>
-    <a href="/Index" style="display: block; text-align: center; margin-top: 15px; color: #64748b;">Назад</a>
-</div>
+            <button type="button" class="btn btn-add" onclick="addQuestion()">➕ Добавить вопрос</button>
+            <button type="submit" class="btn btn-save">Сохранить и опубликовать</button>
+        </form>
+    </div>
+
+    <script>
+        let qCount = 0;
+
+        function addQuestion() {
+            const container = document.getElementById('questionsContainer');
+            const qHtml = `
+                <div class="q-card" id="q${qCount}">
+                    <input type="text" name="Questions[${qCount}].Text" placeholder="Введите текст вопроса" required />
+                    <div style="margin-top: 15px;">
+                        <p style="font-size: 14px; color: #64748b; margin-bottom: 10px;">Варианты ответов (отметьте верный):</p>
+                        ${[0, 1, 2, 3].map(i => `
+                            <div class="option-row">
+                                <input type="radio" name="Questions[${qCount}].CorrectIndex" value="${i}" class="is-correct" required onchange="updateCorrect(${qCount}, ${i})">
+                                <input type="text" name="Questions[${qCount}].Options[${i}].Text" placeholder="Вариант ${i + 1}" required />
+                                <input type="hidden" id="correct_${qCount}_${i}" name="Questions[${qCount}].Options[${i}].IsCorrect" value="false" />
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', qHtml);
+            qCount++;
+        }
+
+        function updateCorrect(qIdx, optIdx) {
+            // Сбрасываем все IsCorrect для этого вопроса в false
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`correct_${qIdx}_${i}`).value = "false";
+            }
+            // Ставим true только выбранному
+            document.getElementById(`correct_${qIdx}_${optIdx}`).value = "true";
+        }
+
+        // Добавляем первый вопрос сразу
+        addQuestion();
+    </script>
+</body>
+</html>
