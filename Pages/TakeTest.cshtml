@@ -1,0 +1,53 @@
+@page "{id:int}"
+@model TestingProlect.Pages.TakeTestModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тест: @Model.CurrentTest.Title</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; display: flex; justify-content: center; }
+        .test-card { background: white; padding: 30px; border-radius: 15px; width: 100%; max-width: 600px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .question { margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .btn { background: #2563eb; color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div class="test-card">
+        <h1>@Model.CurrentTest.Title</h1>
+        <p>@Model.CurrentTest.Description</p>
+        <hr>
+
+        <form method="post">
+            <input type="hidden" name="testId" value="@Model.CurrentTest.Id" />
+            <input type="hidden" id="formName" name="studentName" />
+            <input type="hidden" id="formGroup" name="groupName" />
+
+            @foreach (var q in Model.CurrentTest.Questions)
+            {
+                <div class="question">
+                    <p><strong>@q.Text</strong></p>
+                    @foreach (var opt in q.Options)
+                    {
+                        <label style="display: block; margin-bottom: 8px;">
+                            <input type="radio" name="answers[@q.Id]" value="@opt.Id" required> @opt.Text
+                        </label>
+                    }
+                </div>
+            }
+            <button type="submit" class="btn" onclick="fillUserData()">Завершить тест</button>
+        </form>
+    </div>
+
+    <script>
+        function fillUserData() {
+            // Подтягиваем имя и группу, которые вводили при входе
+            document.getElementById('formName').value = localStorage.getItem('userName') || "Аноним";
+            document.getElementById('formGroup').value = localStorage.getItem('userGroup') || "---";
+        }
+    </script>
+</body>
+</html>
