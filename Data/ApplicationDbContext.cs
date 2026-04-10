@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using TestingProject.Models;
+using TestingProject.Models; // Проверь, чтобы тут было Project через j
 
 namespace TestingProject.Data
 {
@@ -9,10 +9,7 @@ namespace TestingProject.Data
             : base(options) { }
 
         public DbSet<TestResult> TestResults { get; set; }
-        
-        // Добавляем эти две строки:
         public DbSet<Test> Tests { get; set; }
         public DbSet<Question> Questions { get; set; }
     }
 }
-
