@@ -1,4 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
+public DbSet<Test> Tests { get; set; }
+public DbSet<Question> Questions { get; set; }
+public DbSet<AnswerOption> AnswerOptions { get; set; }using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TestingProject.Data; 
 using TestingProject.Models;
