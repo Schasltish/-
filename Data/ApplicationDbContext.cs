@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using TestingProlect.Models;
+using TestingProject.Models;
 
-namespace TestingProlect.Data
+namespace TestingProject.Data
 {
     public class ApplicationDbContext : DbContext
     {
@@ -9,5 +9,10 @@ namespace TestingProlect.Data
             : base(options) { }
 
         public DbSet<TestResult> TestResults { get; set; }
+        
+        // Добавляем эти две строки:
+        public DbSet<Test> Tests { get; set; }
+        public DbSet<Question> Questions { get; set; }
     }
 }
+
