@@ -1,10 +1,7 @@
-public DbSet<Test> Tests { get; set; }
-public DbSet<Question> Questions { get; set; }
-public DbSet<AnswerOption> AnswerOptions { get; set; }using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TestingProject.Data; 
+using TestingProject.Data;
 using TestingProject.Models;
-using System.Threading.Tasks;
 
 namespace TestingProject.Pages
 {
@@ -17,11 +14,24 @@ namespace TestingProject.Pages
             _context = context;
         }
 
-        public void OnGet() { }
+        [BindProperty]
+        public string TestName { get; set; } = string.Empty;
 
-        public async Task<IActionResult> OnPostAsync(string TestName, string Description)
+        [BindProperty]
+        public string Description { get; set; } = string.Empty;
+
+        public void OnGet()
         {
-            var newTest = new Test { Title = TestName, Description = Description };
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var newTest = new Test
+            {
+                Title = TestName,
+                Description = Description
+            };
+
             _context.Tests.Add(newTest);
             await _context.SaveChangesAsync();
 
