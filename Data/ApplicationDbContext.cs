@@ -1,41 +1,18 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using TestingProject.Data;
+using Microsoft.EntityFrameworkCore;
 using TestingProject.Models;
 
-namespace TestingProject.Pages
+namespace TestingProject.Data
 {
-    public class CreateTestModel : PageModel
+    public class ApplicationDbContext : DbContext
     {
-        private readonly ApplicationDbContext _context;
-
-        public CreateTestModel(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        [BindProperty]
-        public string TestName { get; set; } = string.Empty;
-
-        [BindProperty]
-        public string Description { get; set; } = string.Empty;
-
-        public void OnGet()
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
         {
         }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            var newTest = new Test
-            {
-                Title = TestName,
-                Description = Description
-            };
-
-            _context.Tests.Add(newTest);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
-        }
+        public DbSet<TestResult> TestResults { get; set; }
+        public DbSet<Test> Tests { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<AnswerOption> AnswerOptions { get; set; }
     }
 }
