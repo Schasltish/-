@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using TestingProject.Models;
+using TestingProlect.Models;
 
-namespace TestingProject.Data
+namespace TestingProlect.Data
 {
     public class ApplicationDbContext : DbContext
     {
