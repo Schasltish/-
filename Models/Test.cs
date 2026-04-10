@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TestingProject.Models
+namespace TestingProlect.Models
 {
     public class Test
     {
