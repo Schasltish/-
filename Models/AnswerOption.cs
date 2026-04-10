@@ -1,4 +1,4 @@
-namespace TestingProject.Models
+namespace TestingProlect.Models
 {
     public class AnswerOption
     {
